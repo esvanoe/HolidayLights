@@ -1,16 +1,12 @@
-/**
- * Runs 300 lights in a Purple and Orange fading and chasing pattern
- */
-
 /* ======================= includes ================================= */
 
 #include "Particle.h"
 #include "neopixel.h"
 
-/* ======================= prototypes =============================== */
+/* ======================= functions =============================== */
 
 void colorFade(uint8_t reps, uint16_t wait);
-void colorWipe(uint16_t wait);
+void twoTwo(uint16_t wait);
 void colorOff(uint16_t wait);
 
 /* ======================= extra-examples.cpp ======================== */
@@ -20,7 +16,7 @@ SYSTEM_THREAD(ENABLED);
 // IMPORTANT: Set pixel COUNT, PIN and TYPE
 #define PIXEL_COUNT 300
 #define PIXEL_PIN D5
-#define PIXEL_TYPE WS2812B
+#define PIXEL_TYPE WS2811
 
 
 Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
@@ -36,52 +32,41 @@ void setup() {
 }
 
 void loop() {
-  // Some example procedures showing how to display to the pixels:
-  // Do not run more than 15 seconds of these, or the b/g tasks
-  // will be blocked.
-  //--------------------------------------------------------------
-
   strip.setPixelColor(0, strip.Color(0, 0, 0));
   strip.setBrightness(50);
   strip.show();
 
-
   colorFade(3, 30); //reps, wait
   colorOff(200);
-  colorWipe(50);   // wait
-  colorOff(100);
-  colorWipe(50);   // wait
-  colorOff(100);
-  colorWipe(50);   // wait
-
+  twoTwo(50);   // wait
 }
 
 void colorFade(uint8_t reps, uint16_t wait) {
   for(uint8_t count=0; count<reps; count++) {
     for(uint16_t bright=1; bright<100; bright+=1) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
-        strip.setPixelColor(i, strip.Color(1*bright, 2.5*bright, 0));
+        strip.setPixelColor(i, strip.Color(2.5*bright, 0, 0));
       }
       strip.show();
       delay(wait);
     }
       for(uint16_t bright=100; bright>10; bright-=1) {
         for(uint16_t i=0; i<strip.numPixels(); i++) {
-          strip.setPixelColor(i, strip.Color(1*bright, 2.5*bright, 0));
+          strip.setPixelColor(i, strip.Color(2.5*bright, 0, 0));
         }
         strip.show();
         delay(wait);
       }
     for(uint16_t bright=1; bright<100; bright+=1) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
-        strip.setPixelColor(i, strip.Color(0, 1.5*bright, 2.5*bright));
+        strip.setPixelColor(i, strip.Color(0, 2.5*bright, 0));
       }
       strip.show();
       delay(wait);
     }
       for(uint16_t bright=100; bright>10; bright-=1) {
         for(uint16_t i=0; i<strip.numPixels(); i++) {
-          strip.setPixelColor(i, strip.Color(0, 1.5*bright, 2.5*bright));
+          strip.setPixelColor(i, strip.Color(0, 2.5*bright, 0));
         }
         strip.show();
         delay(wait);
@@ -89,28 +74,28 @@ void colorFade(uint8_t reps, uint16_t wait) {
   }
 }
 
-
-// Fill the dots one after the other with a color, wait (ms) after each one
-void colorWipe(uint16_t wait) {
+// Fill the dots two after two with a color, wait (ms) after each one
+void twoTwo uint16_t wait) {
   for(uint16_t i=3; i<strip.numPixels(); i+=4) {
-    strip.setPixelColor(i-3, strip.Color(0, 150, 250));
+    strip.setPixelColor(i-3, strip.Color(0, 0, 250));
+    strip.setPixelColor(i-2, strip.Color(0, 0, 250));
     strip.show();
     delay(wait);
-    strip.setPixelColor(i-1, strip.Color(102, 255, 0));
+    strip.setPixelColor(i-1, strip.Color(250, 250, 250));
+    strip.setPixelColor(i, strip.Color(250, 250, 250));
     strip.show();
     delay(wait);
     }
-  for(uint16_t i=3; i<strip.numPixels(); i+=4) {
-    strip.setPixelColor(i-2, strip.Color(102, 255, 0));
-    strip.show();
-    delay(wait);
-    strip.setPixelColor(i, strip.Color(0, 150, 250));
-    strip.show();
-    delay(wait);
+  for(uint_8 reps=0; reps<20; reps++) {
+    for(uint16_t i=3; i<strip.numPixels(); i+=4) {
+      strip.setPixelColor(i-1, strip.Color(250, 250, 250));
+      strip.setPixelColor(i, strip.Color(250, 250, 250));
+      strip.setPixelColor(i-3, strip.Color(0, 0, 250));
+      strip.setPixelColor(i-2, strip.Color(0, 0, 250));
+      strip.show();
+      delay(100);
+      }
     }
-  strip.show();
-  delay(5000);
-
 }
 
 void colorOff(uint16_t wait) {
