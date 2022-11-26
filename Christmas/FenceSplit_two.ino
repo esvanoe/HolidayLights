@@ -12,7 +12,7 @@ SYSTEM_THREAD(ENABLED);
 #include "Particle.h"
 #include "neopixel.h"
 /* ======================= functions =============================== */
-void colorFade(uint8_t reps, uint16_t wait);
+void colorFade(uint8_t reps, uint16_t speed);
 void colorSplit(uint16_t wait);
 void colorOff(uint16_t wait, uint16_t down, uint16_t up);
 
@@ -30,39 +30,39 @@ void setup() {
 }
 
 void loop() {
-  colorFade(2, 10); //reps, wait
+  colorFade(2, 10); //reps, speed
   colorOff(100); // wait
-  colorSplit(100, 175, 176);   // wait, down, up
+  colorSplit(100, strip.numPixels()/2, strip.numPixels()/2+1);   // wait, down, up
   colorOff(100); // wait
-  colorSplit(100, 175, 176);   // wait, down, up
+  colorSplit(100, strip.numPixels()/2, strip.numPixels()/2+1);   // wait, down, up
 }
 
-void colorFade(uint8_t reps, uint16_t wait) {
+void colorFade(uint8_t reps, uint16_t speed) {
   for(uint8_t count=0; count<reps; count++) {
     for(uint16_t bright=1; bright<100; bright+=1) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
-        strip.setPixelColor(i, strip.Color(2.5*bright, 0, 0));
+        strip.setPixelColor(i, strip.Color(bright, 0, 0));
       }
       strip.show();
-      delay(wait);
+      delay(speed);
     }
-      for(uint16_t bright=100; bright>10; bright-=1) {
+      for(uint16_t bright=250; bright>5; bright-=5) {
         for(uint16_t i=0; i<strip.numPixels(); i++) {
-          strip.setPixelColor(i, strip.Color(2.5*bright, 0, 0));
+          strip.setPixelColor(i, strip.Color(bright, 0, 0));
         }
         strip.show();
         delay(wait);
       }
-    for(uint16_t bright=1; bright<100; bright+=1) {
+    for(uint16_t bright=5; bright<250; bright+=5) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
-        strip.setPixelColor(i, strip.Color(0, 2.5*bright, 0));
+        strip.setPixelColor(i, strip.Color(0, bright, 0));
       }
       strip.show();
       delay(wait);
     }
-      for(uint16_t bright=100; bright>10; bright-=1) {
+      for(uint16_t bright=250; bright>5; bright-=5) {
         for(uint16_t i=0; i<strip.numPixels(); i++) {
-          strip.setPixelColor(i, strip.Color(0, 2.5*bright, 0));
+          strip.setPixelColor(i, strip.Color(0, bright, 0));
         }
         strip.show();
         delay(wait);
