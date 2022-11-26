@@ -43,30 +43,30 @@ void loop() {
 
 void colorFade(uint8_t reps, uint16_t wait) {
   for(uint8_t count=0; count<reps; count++) {
-    for(uint16_t bright=1; bright<100; bright+=1) {
+    for(uint16_t bright=10; bright<250; bright+=5) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
-        strip.setPixelColor(i, strip.Color(2.5*bright, 0, 0));
+        strip.setPixelColor(i, strip.Color(bright, 0, 0));
       }
       strip.show();
       delay(wait);
     }
-      for(uint16_t bright=100; bright>10; bright-=1) {
+      for(uint16_t bright=250; bright>10; bright-=5) {
         for(uint16_t i=0; i<strip.numPixels(); i++) {
-          strip.setPixelColor(i, strip.Color(2.5*bright, 0, 0));
+          strip.setPixelColor(i, strip.Color(bright, 0, 0));
         }
         strip.show();
         delay(wait);
       }
-    for(uint16_t bright=1; bright<100; bright+=1) {
+    for(uint16_t bright=10; bright<250; bright+=5) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
-        strip.setPixelColor(i, strip.Color(0, 2.5*bright, 0));
+        strip.setPixelColor(i, strip.Color(0, bright, 0));
       }
       strip.show();
       delay(wait);
     }
-      for(uint16_t bright=100; bright>10; bright-=1) {
+      for(uint16_t bright=250; bright>10; bright-=5) {
         for(uint16_t i=0; i<strip.numPixels(); i++) {
-          strip.setPixelColor(i, strip.Color(0, 2.5*bright, 0));
+          strip.setPixelColor(i, strip.Color(0, bright, 0));
         }
         strip.show();
         delay(wait);
