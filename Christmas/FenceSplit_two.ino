@@ -6,8 +6,6 @@ Variablize the lengths and halves
 Add cool functions
 */ 
 
-SYSTEM_MODE(AUTOMATIC);
-SYSTEM_THREAD(ENABLED);
 /* ======================= includes ================================= */
 #include "Particle.h"
 #include "neopixel.h"
@@ -15,6 +13,13 @@ SYSTEM_THREAD(ENABLED);
 void colorFade(uint8_t reps, uint16_t speed);
 void colorSplit(uint16_t wait);
 void colorOff(uint16_t wait, uint16_t down, uint16_t up);
+void colorChase(uint16_t speed);
+
+/* ======================= extra-examples.cpp ======================== */
+
+SYSTEM_MODE(AUTOMATIC);
+SYSTEM_THREAD(ENABLED);
+
 
 // IMPORTANT: Set pixel COUNT, PIN and TYPE
 #define PIXEL_COUNT 350
@@ -30,16 +35,19 @@ void setup() {
 }
 
 void loop() {
-  colorFade(2, 10); //reps, speed
-  colorOff(100); // wait
+  colorFade(1, 10); //reps, speed
+  colorOff(100);    // wait
   colorSplit(100, strip.numPixels()/2, strip.numPixels()/2+1);   // wait, down, up
-  colorOff(100); // wait
+  colorOff(100);    // wait
+  colorChase(10);    // speed
+  colorOff(100);    // wait
   colorSplit(100, strip.numPixels()/2, strip.numPixels()/2+1);   // wait, down, up
+  colorOff(100);    // wait
 }
 
 void colorFade(uint8_t reps, uint16_t speed) {
   for(uint8_t count=0; count<reps; count++) {
-    for(uint16_t bright=1; bright<100; bright+=1) {
+    for(uint16_t bright=5; bright<250; bright+=5) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
         strip.setPixelColor(i, strip.Color(bright, 0, 0));
       }
@@ -51,21 +59,35 @@ void colorFade(uint8_t reps, uint16_t speed) {
           strip.setPixelColor(i, strip.Color(bright, 0, 0));
         }
         strip.show();
-        delay(wait);
+        delay(speed);
       }
     for(uint16_t bright=5; bright<250; bright+=5) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
         strip.setPixelColor(i, strip.Color(0, bright, 0));
       }
       strip.show();
-      delay(wait);
+      delay(speed);
     }
       for(uint16_t bright=250; bright>5; bright-=5) {
         for(uint16_t i=0; i<strip.numPixels(); i++) {
           strip.setPixelColor(i, strip.Color(0, bright, 0));
         }
         strip.show();
-        delay(wait);
+        delay(speed);
+      }
+    for(uint16_t bright=1; bright<250; bright+=5) {
+      for(uint16_t i=0; i<strip.numPixels(); i++) {
+        strip.setPixelColor(i, strip.Color(0, 0, bright));
+      }
+      strip.show();
+      delay(speed);
+    }
+      for(uint16_t bright=250; bright>10; bright-=5) {
+        for(uint16_t i=0; i<strip.numPixels(); i++) {
+          strip.setPixelColor(i, strip.Color(0, 0, bright));
+        }
+        strip.show();
+        delay(speed);
       }
   }
 }
@@ -82,9 +104,9 @@ void colorSplit(uint16_t wait, uint16_t down, uint16_t up) {
     up+=4;
     down-=4;
   }
-  down=175;
-  up=176;
-  while(down>=0 && up<=350) {
+  down=strip.numPixels()/2;
+  up=strip.numPixels()/2+1;
+  while(down>=0 && up<=strip.numPixels()) {
     strip.setPixelColor(up+2, strip.Color(250, 250, 250));
     strip.setPixelColor(up+3, strip.Color(250, 250, 250));
     strip.setPixelColor(down-2, strip.Color(250, 250, 250));
@@ -93,6 +115,17 @@ void colorSplit(uint16_t wait, uint16_t down, uint16_t up) {
     delay(wait);
     up+=4;
     down-=4;
+  }
+}
+
+void colorChase(uint16_t speed) {
+  for(uint16_t i=0; i<strip.numPixels(); i++) {
+    strip.setPixelColor(i, 0, 0, 250);
+    if(i>2) {
+      strip.setPixelColor(i-3, 0, 0, 0);
+    }
+    strip.show();
+    delay(speed);
   }
 }
 

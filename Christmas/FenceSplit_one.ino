@@ -18,7 +18,7 @@ I need to make the items variables though.
 void colorFade(uint8_t reps, uint16_t wait);
 void colorSplit(uint16_t wait);
 void colorOff(uint16_t wait, uint16_t down, uint16_t up);
-void colorChase(uint16_t speed)
+
 
 /* ======================= extra-examples.cpp ======================== */
 
@@ -42,7 +42,6 @@ void loop() {
   colorFade(2, 10);     // reps, wait
   colorOff(100);        // wait
   colorSplit(100, 175, 176);   // wait, down, up
-  colorChase(20)        // speed
   colorOff(100) .       // wait
 }
 
@@ -119,16 +118,6 @@ void colorSplit(uint16_t wait, uint16_t down, uint16_t up) {
   }
 }
 
-void colorChase(uint16_t speed) {
-  while(uint16_t i=0; i<strip.numPixels(); i++) {
-    strip.setPixelColor(i, 0, 0, 250);
-    if(i>2) {
-      strip.setPixelColor(i-3, 0, 0, 0)
-    }
-    strip.show()
-    delay(speed)
-  }
-}
 
 void colorOff(uint16_t wait) {
   for(uint16_t f=0; f-1<strip.numPixels(); f++) {
