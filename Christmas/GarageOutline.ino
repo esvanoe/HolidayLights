@@ -8,6 +8,7 @@
 void colorFade(uint8_t reps, uint16_t wait);
 void twoTwo(uint16_t wait);
 void colorOff(uint16_t wait);
+void rgbTwinkle(uint8_t reps, uint16_t speed);
 
 /* ======================= extra-examples.cpp ======================== */
 
@@ -27,19 +28,42 @@ Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 // on a live circuit...if you must, connect GND first.
 
 void setup() {
+  strip.setBrightness(95);
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
 }
 
 void loop() {
-  strip.setPixelColor(0, strip.Color(0, 0, 0));
-  strip.setBrightness(50);
-  strip.show();
-
+  rgbTwinkle(20, 800); // Reps, Speed
   colorFade(3, 30); //reps, wait
-  colorOff(200);
-  twoTwo(50);   // wait
+  twoTwo(40);   // wait
 }
+
+void rgbTwinkle(uint8_t reps, uint16_t speed) {
+  for(uint8_t count=0; count<reps; count++) {
+    for(uint16_t i=0; i<strip.numPixels(); i+=3) {
+      strip.setPixelColor(i, 255, 0, 0);
+      strip.setPixelColor(i+1, 0, 255, 0);
+      strip.setPixelColor(i+2, 0, 0, 255);
+    }
+    strip.show();
+    delay(speed);
+    for(uint16_t i=0; i<strip.numPixels(); i+=3) {
+      strip.setPixelColor(i, 0, 255, 0);
+      strip.setPixelColor(i+1, 0, 0, 255);
+      strip.setPixelColor(i+2, 255, 0, 0);
+    }
+    strip.show();
+    delay(speed);
+    for(uint16_t i=0; i<strip.numPixels(); i+=3) {
+      strip.setPixelColor(i, 0, 0, 255);
+      strip.setPixelColor(i+1, 255, 0, 0);
+      strip.setPixelColor(i+2, 0, 255, 0);
+    }
+    strip.show();
+    delay(speed);
+    }
+  }
 
 void colorFade(uint8_t reps, uint16_t wait) {
   for(uint8_t count=0; count<reps; count++) {
