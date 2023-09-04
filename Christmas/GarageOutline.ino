@@ -99,7 +99,7 @@ void colorFade(uint8_t reps, uint16_t wait) {
 }
 
 // Fill the dots two after two with a color, wait (ms) after each one
-void twoTwo uint16_t wait) {
+void twoTwo(uint16_t wait) {
   for(uint16_t i=3; i<strip.numPixels(); i+=4) {
     strip.setPixelColor(i-3, strip.Color(0, 0, 250));
     strip.setPixelColor(i-2, strip.Color(0, 0, 250));
@@ -110,7 +110,7 @@ void twoTwo uint16_t wait) {
     strip.show();
     delay(wait);
     }
-  for(uint_8 reps=0; reps<20; reps++) {
+  for(uint8_t reps=0; reps<20; reps++) {
     for(uint16_t i=3; i<strip.numPixels(); i+=4) {
       strip.setPixelColor(i-1, strip.Color(250, 250, 250));
       strip.setPixelColor(i, strip.Color(250, 250, 250));

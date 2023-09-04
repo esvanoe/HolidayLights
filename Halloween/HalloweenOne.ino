@@ -17,10 +17,13 @@ void colorOff(uint16_t wait);
 
 SYSTEM_MODE(AUTOMATIC);
 SYSTEM_THREAD(ENABLED);
+STARTUP(WiFi.selectAntenna(ANT_EXTERNAL));
+
 // IMPORTANT: Set pixel COUNT, PIN and TYPE
-#define PIXEL_COUNT 300
-#define PIXEL_PIN D5
-#define PIXEL_TYPE WS2812B
+#define PIXEL_COUNT 350
+#define PIXEL_PIN D6
+#define PIXEL_TYPE WS2811
+//Order of WS2811  - R -> G -> B
 
 
 Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
@@ -46,7 +49,7 @@ void loop() {
   strip.show();
 
 
-  colorFade(3, 30); //reps, wait
+  colorFade(3, 50); //reps, wait
   colorOff(200);
   colorWipe(50);   // wait
   colorOff(100);
@@ -60,28 +63,32 @@ void colorFade(uint8_t reps, uint16_t wait) {
   for(uint8_t count=0; count<reps; count++) {
     for(uint16_t bright=1; bright<100; bright+=1) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
-        strip.setPixelColor(i, strip.Color(1*bright, 2.5*bright, 0));
+        //strip.setPixelColor(i, strip.Color(1*bright, 2*bright, 0));
+        strip.setPixelColor(i, strip.Color(2.5*bright, 0.5*bright, 0.1*bright));
       }
       strip.show();
       delay(wait);
     }
       for(uint16_t bright=100; bright>10; bright-=1) {
         for(uint16_t i=0; i<strip.numPixels(); i++) {
-          strip.setPixelColor(i, strip.Color(1*bright, 2.5*bright, 0));
+          //strip.setPixelColor(i, strip.Color(1*bright, 2*bright, 0));
+          strip.setPixelColor(i, strip.Color(2.5*bright, 0.5*bright, 0.1*bright));
         }
         strip.show();
         delay(wait);
       }
     for(uint16_t bright=1; bright<100; bright+=1) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
-        strip.setPixelColor(i, strip.Color(0, 1.5*bright, 2.5*bright));
+        strip.setPixelColor(i, strip.Color(2*bright, 0, 2*bright));
+        //strip.setPixelColor(i, strip.Color(0, 1*bright, 2*bright));
       }
       strip.show();
       delay(wait);
     }
       for(uint16_t bright=100; bright>10; bright-=1) {
         for(uint16_t i=0; i<strip.numPixels(); i++) {
-          strip.setPixelColor(i, strip.Color(0, 1.5*bright, 2.5*bright));
+          strip.setPixelColor(i, strip.Color(2*bright, 0, 2*bright));
+          //strip.setPixelColor(i, strip.Color(0, 1*bright, 2*bright));
         }
         strip.show();
         delay(wait);
