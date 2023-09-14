@@ -36,45 +36,62 @@ Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
-  strip.setBrightness(90);
+  strip.setBrightness(80);
 }
 
 void loop() {
   colorFade(3, 50); //reps, wait
   colorOff(200);
-  colorWipe(50);   // wait
+  colorWipe(100);   // wait
   colorOff(100);
-  colorWipe(50);   // wait
+  colorWipe(30);   // wait
   colorOff(100);
-  colorWipe(50);   // wait
+  colorWipe(100);   // wait
 }
 
 void colorFade(uint8_t reps, uint16_t wait) {
   for(uint8_t count=0; count<reps; count++) {
-    for(uint16_t bright=1; bright<101; bright+=1) {
+    // Orange Light Section
+    for(uint16_t bright=5; bright<91; bright+=2) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
         strip.setPixelColor(i, strip.Color(2.5*bright, 0.5*bright, 0.1*bright));
       }
       strip.show();
       delay(wait);
     }
-      for(uint16_t bright=100; bright>9; bright-=1) {
+      for(uint16_t bright=90; bright>4; bright-=2) {
         for(uint16_t i=0; i<strip.numPixels(); i++) {
           strip.setPixelColor(i, strip.Color(2.5*bright, 0.5*bright, 0.1*bright));
         }
         strip.show();
         delay(wait);
       }
-    for(uint16_t bright=1; bright<101; bright+=1) {
+    // Purple Light Section
+    for(uint16_t bright=4; bright<91; bright+=2) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
         strip.setPixelColor(i, strip.Color(2*bright, 0, 2*bright));
       }
       strip.show();
       delay(wait);
     }
-      for(uint16_t bright=100; bright>9; bright-=1) {
+      for(uint16_t bright=90; bright>4; bright-=2) {
         for(uint16_t i=0; i<strip.numPixels(); i++) {
           strip.setPixelColor(i, strip.Color(2*bright, 0, 2*bright));
+        }
+        strip.show();
+        delay(wait);
+      }
+    // Red Light Section
+    for(uint16_t bright=4; bright<91; bright+=2) {
+      for(uint16_t i=0; i<strip.numPixels(); i++) {
+        strip.setPixelColor(i, strip.Color(2*bright, 0, 0));
+      }
+      strip.show();
+      delay(wait);
+    }
+      for(uint16_t bright=90; bright>4; bright-=2) {
+        for(uint16_t i=0; i<strip.numPixels(); i++) {
+          strip.setPixelColor(i, strip.Color(2*bright, 0, 0));
         }
         strip.show();
         delay(wait);

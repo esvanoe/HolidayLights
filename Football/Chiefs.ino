@@ -28,34 +28,24 @@ STARTUP(WiFi.selectAntenna(ANT_EXTERNAL));
 
 Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 
-// IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
-// pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
-// and minimize distance between Arduino and first pixel.  Avoid connecting
-// on a live circuit...if you must, connect GND first.
-
 void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
 }
 
 void loop() {
-  // Some example procedures showing how to display to the pixels:
-  // Do not run more than 15 seconds of these, or the b/g tasks
-  // will be blocked.
-  //--------------------------------------------------------------
-
   strip.setPixelColor(0, strip.Color(0, 0, 0));
-  strip.setBrightness(50);
+  strip.setBrightness(75);
   strip.show();
 
 
-  colorFade(3, 50); //reps, wait
+//  colorFade(3, 50); //reps, wait
   colorOff(200);
-  colorWipe(50);   // wait
+  colorWipe(100);   // wait
   colorOff(100);
-  colorWipe(50);   // wait
+  colorWipe(100);   // wait
   colorOff(100);
-  colorWipe(50);   // wait
+  colorWipe(100);   // wait
 
 }
 
@@ -95,31 +85,76 @@ void colorFade(uint8_t reps, uint16_t wait) {
 
 // Fill the dots one after the other with a color, wait (ms) after each one
 void colorWipe(uint16_t wait) {
-  for(uint16_t i=3; i<strip.numPixels(); i+=4) {
-    strip.setPixelColor(i-3, strip.Color(0, 150, 250));
-    strip.show();
-    delay(wait);
-    strip.setPixelColor(i-1, strip.Color(102, 255, 0));
+  for(uint16_t i=12; i<strip.numPixels(); i+=12) {
+    strip.setPixelColor(i-12, strip.Color(200, 0, 0));
+    strip.setPixelColor(i-11, strip.Color(200, 0, 0));
+    strip.setPixelColor(i-10, strip.Color(200, 0, 0));
+    strip.setPixelColor(i-9, strip.Color(200, 0, 0));
+    strip.setPixelColor(i-8, strip.Color(200, 0, 0));
+    strip.setPixelColor(i-7, strip.Color(200, 0, 0));
     strip.show();
     delay(wait);
     }
-  for(uint16_t i=3; i<strip.numPixels(); i+=4) {
-    strip.setPixelColor(i-2, strip.Color(102, 255, 0));
-    strip.show();
-    delay(wait);
-    strip.setPixelColor(i, strip.Color(0, 150, 250));
-    strip.show();
-    delay(wait);
+  for(uint16_t i=12; i<strip.numPixels(); i+=12) {
+    strip.setPixelColor(i-6, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-5, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-4, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-3, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-2, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-1, strip.Color(200, 200, 200));
+  }
+  strip.show();
+  delay(500);
+  //}
+  for(uint16_t i=12; i<strip.numPixels(); i+=12) {
+    strip.setPixelColor(i-6, strip.Color(0, 0, 0));
+    strip.setPixelColor(i-5, strip.Color(0, 0, 0));
+    strip.setPixelColor(i-4, strip.Color(0, 0, 0));
+    strip.setPixelColor(i-3, strip.Color(0, 0, 0));
+    strip.setPixelColor(i-2, strip.Color(0, 0, 0));
+    strip.setPixelColor(i-1, strip.Color(0, 0, 0));
+  }
+  strip.show();
+  delay(500);
+//  }
+  for(uint16_t i=12; i<strip.numPixels(); i+=12) {
+    strip.setPixelColor(i-6, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-5, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-4, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-3, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-2, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-1, strip.Color(200, 200, 200));
     }
   strip.show();
-  delay(5000);
-
+  delay(500);
+  //}
+  for(uint16_t i=12; i<strip.numPixels(); i+=12) {
+    strip.setPixelColor(i-6, strip.Color(0, 0, 0));
+    strip.setPixelColor(i-5, strip.Color(0, 0, 0));
+    strip.setPixelColor(i-4, strip.Color(0, 0, 0));
+    strip.setPixelColor(i-3, strip.Color(0, 0, 0));
+    strip.setPixelColor(i-2, strip.Color(0, 0, 0));
+    strip.setPixelColor(i-1, strip.Color(0, 0, 0));
+    }
+  strip.show();
+  delay(500);
+  //}
+  for(uint16_t i=12; i<strip.numPixels(); i+=12) {
+    strip.setPixelColor(i-6, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-5, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-4, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-3, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-2, strip.Color(200, 200, 200));
+    strip.setPixelColor(i-1, strip.Color(200, 200, 200));
+    }
+  strip.show();
+  delay(3000);
 }
 
 void colorOff(uint16_t wait) {
   for(uint16_t f=0; f-1<strip.numPixels(); f++) {
     strip.setPixelColor(f, strip.Color(0, 0, 0));
-  }
+    }
   strip.show();
   delay(wait);
 }
