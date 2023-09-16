@@ -5,9 +5,24 @@
 
 /* ======================= prototypes =============================== */
 
-void colorFade(uint8_t reps, uint16_t wait);
+void colorFlash(uint8_t reps, uint16_t wait);
 void colorWipe(uint16_t wait);
 void colorOff(uint16_t wait);
+void twinkleWhite(uint8_t wait);
+void twinkleWhite2(uint8_t wait);
+void twinkleWhite3(uint8_t wait, uint32_t color1, uint32_t color2);
+long randN; 
+long randN1;
+long randN2;
+long randN3; 
+long randN4;
+long randN5;
+long randN6; 
+long randN7;
+long randN8;
+long randN9; 
+long randN10;
+long randN11;
 
 /* ======================= extra-examples.cpp ======================== */
 
@@ -27,16 +42,19 @@ void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
   strip.setBrightness(75);
+  randomSeed(analogRead(0));
 }
 
 void loop() {
   colorFade(3, 50); //reps, wait
   colorOff(200);
-  colorWipe(100);   // wait
+  colorFlash(100);   // wait
   colorOff(100);
-  colorWipe(100);   // wait
+  colorFlash(100);   // wait
+  twinkleWhite(5, strip.Color(250, 250, 250), strip.Color(250, 0, 0));  // wait
   colorOff(100);
-  colorWipe(100);   // wait
+  colorFlash(100);   // wait
+  colorOff(100);
 }
 
 void colorFade(uint8_t reps, uint16_t wait) {
@@ -72,8 +90,8 @@ void colorFade(uint8_t reps, uint16_t wait) {
   }
 }
 
-// Make every 8 out of 16 red, then flash white in the 8 between them.
-void colorWipe(uint16_t wait) {
+// Make every 6 out of 12 red, then flash white in the 6 between them.
+void colorFlash(uint16_t wait) {
   for(uint16_t i=16; i<strip.numPixels(); i+=16) {
       for(uint8_t l=9; l<17; l++){
         strip.setPixelColor(i-l, strip.Color(200, 0, 0));
@@ -96,6 +114,70 @@ void colorWipe(uint16_t wait) {
     }
     strip.show();
     delay(800);
+  for(uint16_t i=0; i<strip.numPixels(); i++) {
+    strip.setPixelColor(i, strip.Color(200, 0, 0));
+    }
+  strip.show();
+  delay(1000);
+    }
+   }
+
+void twinkleWhite(uint8_t wait, uint32_t color1, uint32_t color2) {
+  for(uint8_t f=0; f<201; f++) {
+    randN = random(0, 175);
+    randN1 = random(176, 350);
+    randN2 = random(0, 175);
+    randN3 = random(176, 350);
+    randN4 = random(0, 175);
+    randN5 = random(176, 350);
+    randN6 = random(0, 175);
+    randN7 = random(176, 350);
+    randN8 = random(0, 175);
+    randN9 = random(176, 350);
+    randN10 = random(0, 175);
+    randN11 = random(176, 350);
+    strip.setPixelColor(randN, color1);
+    strip.setPixelColor(randN1, color1);
+    strip.setPixelColor(randN2, color2);
+    strip.setPixelColor(randN3, color2);
+    strip.setPixelColor(randN4, color1);
+    strip.setPixelColor(randN5, color1);
+    strip.show();
+    delay(wait);
+    strip.setPixelColor(randN6, color1);
+    strip.setPixelColor(randN7, color1);
+    strip.setPixelColor(randN8, color2);
+    strip.setPixelColor(randN9, color2);
+    strip.setPixelColor(randN10, color1);
+    strip.setPixelColor(randN11, color1);
+    strip.setPixelColor(randN, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN1, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN2, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN3, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN4, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN5, strip.Color(0, 0, 0));
+    strip.show();
+    delay(wait);
+    strip.setPixelColor(randN6, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN7, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN8, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN9, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN10, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN11, strip.Color(0, 0, 0));
+    strip.show();    
+    }
+}
+
+void twinkleWhite2(uint8_t wait) {
+  for(uint16_t t=0; t<100; t++) {
+    for(uint8_t s=0; s<34; s+=10) {
+      randN = random(s, s+10);
+      strip.setPixelColor(randN, strip.Color(250, 250, 250));
+    strip.show();
+    delay(wait);
+    strip.setPixelColor(randN, strip.Color(0, 0, 0));
+    strip.show();
+      }
   }
 }
 

@@ -1,8 +1,4 @@
-/**
- * Runs 300 lights in a Purple and Orange fading and chasing pattern
- */
-
-/* ======================= includes ================================= */
+/* ======================= includes =============================== */
 
 #include "Particle.h"
 #include "neopixel.h"
@@ -12,8 +8,6 @@
 void colorFade(uint8_t reps, uint16_t wait);
 void colorWipe(uint16_t wait);
 void colorOff(uint16_t wait);
-
-/* ======================= extra-examples.cpp ======================== */
 
 SYSTEM_MODE(AUTOMATIC);
 SYSTEM_THREAD(ENABLED);
@@ -25,18 +19,12 @@ STARTUP(WiFi.selectAntenna(ANT_EXTERNAL));
 #define PIXEL_TYPE WS2811
 //Order of WS2811  - R -> G -> B
 
-
 Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
-
-// IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
-// pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
-// and minimize distance between Arduino and first pixel.  Avoid connecting
-// on a live circuit...if you must, connect GND first.
 
 void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
-  strip.setBrightness(80);
+  strip.setBrightness(75);
 }
 
 void loop() {
@@ -52,17 +40,17 @@ void loop() {
 void colorFade(uint8_t reps, uint16_t wait) {
   for(uint8_t count=0; count<reps; count++) {
     // Orange Light Section
-    for(uint16_t bright=5; bright<91; bright+=2) {
+    for(uint16_t bright=4; bright<91; bright+=2) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
         strip.setPixelColor(i, strip.Color(2.5*bright, 0.5*bright, 0.1*bright));
-      }
+        }
       strip.show();
       delay(wait);
     }
-      for(uint16_t bright=90; bright>4; bright-=2) {
+      for(uint16_t bright=90; bright>3; bright-=2) {
         for(uint16_t i=0; i<strip.numPixels(); i++) {
           strip.setPixelColor(i, strip.Color(2.5*bright, 0.5*bright, 0.1*bright));
-        }
+          }
         strip.show();
         delay(wait);
       }
@@ -70,14 +58,14 @@ void colorFade(uint8_t reps, uint16_t wait) {
     for(uint16_t bright=4; bright<91; bright+=2) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
         strip.setPixelColor(i, strip.Color(2*bright, 0, 2*bright));
-      }
+        }
       strip.show();
       delay(wait);
     }
-      for(uint16_t bright=90; bright>4; bright-=2) {
+      for(uint16_t bright=90; bright>3; bright-=2) {
         for(uint16_t i=0; i<strip.numPixels(); i++) {
           strip.setPixelColor(i, strip.Color(2*bright, 0, 2*bright));
-        }
+          }
         strip.show();
         delay(wait);
       }
@@ -85,20 +73,34 @@ void colorFade(uint8_t reps, uint16_t wait) {
     for(uint16_t bright=4; bright<91; bright+=2) {
       for(uint16_t i=0; i<strip.numPixels(); i++) {
         strip.setPixelColor(i, strip.Color(2*bright, 0, 0));
-      }
+        }
       strip.show();
       delay(wait);
     }
-      for(uint16_t bright=90; bright>4; bright-=2) {
+      for(uint16_t bright=90; bright>3; bright-=2) {
         for(uint16_t i=0; i<strip.numPixels(); i++) {
           strip.setPixelColor(i, strip.Color(2*bright, 0, 0));
+          }
+        strip.show();
+        delay(wait);
+      }
+    // Green Light Section
+    for(uint16_t bright=4; bright<91; bright+=2) {
+      for(uint16_t i=0; i<strip.numPixels(); i++) {
+        strip.setPixelColor(i, strip.Color(0, 2*bright, 0));
         }
+      strip.show();
+      delay(wait);
+    }
+      for(uint16_t bright=90; bright>3; bright-=2) {
+        for(uint16_t i=0; i<strip.numPixels(); i++) {
+          strip.setPixelColor(i, strip.Color(0, 2*bright, 0));
+          }
         strip.show();
         delay(wait);
       }
   }
 }
-
 
 // Fill the dots one after the other with a color, wait (ms) after each one
 void colorWipe(uint16_t wait) {
@@ -120,7 +122,6 @@ void colorWipe(uint16_t wait) {
     }
   strip.show();
   delay(5000);
-
 }
 
 void colorOff(uint16_t wait) {
