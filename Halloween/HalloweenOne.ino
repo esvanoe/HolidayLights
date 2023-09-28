@@ -17,7 +17,6 @@ STARTUP(WiFi.selectAntenna(ANT_EXTERNAL));
 #define PIXEL_COUNT 350
 #define PIXEL_PIN D6
 #define PIXEL_TYPE WS2811
-//Order of WS2811  - R -> G -> B
 
 Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 

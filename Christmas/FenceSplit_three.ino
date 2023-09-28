@@ -18,11 +18,23 @@ void colorSplit(uint16_t wait);
 void colorOff(uint16_t wait, uint16_t down, uint16_t up);
 void colorChase(uint8_t reps, uint16_t speed, uint32_t color);
 void rgbTwinkle(uint8_t reps, uint16_t speed);
-
+void twinkleWhite(uint8_t wait, uint32_t color1);
+long randN; 
+long randN1;
+long randN2;
+long randN3; 
+long randN4;
+long randN5;
+long randN6; 
+long randN7;
+long randN8;
+long randN9; 
+long randN10;
+long randN11;
 /* ======================= extra-examples.cpp ======================== */
 SYSTEM_MODE(AUTOMATIC);
 SYSTEM_THREAD(ENABLED);
-
+STARTUP(WiFi.selectAntenna(ANT_EXTERNAL));
 
 // IMPORTANT: Set pixel COUNT, PIN and TYPE
 #define PIXEL_COUNT 350
@@ -38,6 +50,8 @@ void setup() {
 }
 
 void loop() {
+  twinkeWhite(10, strip.Color(250, 250, 250))
+
   rgbTwinkle(20, 800); // Reps, Speed
   colorFade(2, 10); //reps, speed
 
@@ -221,4 +235,50 @@ void colorOff(uint16_t wait) {
     }
   strip.show();
   delay(wait);
+}
+
+void twinkleWhite(uint8_t wait, uint32_t color1) {
+  for(uint8_t f=0; f<201; f++) {
+    randN = random(0, 175);
+    randN1 = random(176, 350);
+    randN2 = random(0, 175);
+    randN3 = random(176, 350);
+    randN4 = random(0, 175);
+    randN5 = random(176, 350);
+    randN6 = random(0, 175);
+    randN7 = random(176, 350);
+    randN8 = random(0, 175);
+    randN9 = random(176, 350);
+    randN10 = random(0, 175);
+    randN11 = random(176, 350);
+    strip.setPixelColor(randN, color1);
+    strip.setPixelColor(randN1, color1);
+    strip.setPixelColor(randN2, color1);
+    strip.setPixelColor(randN3, color1);
+    strip.setPixelColor(randN4, color1);
+    strip.setPixelColor(randN5, color1);
+    strip.show();
+    delay(wait);
+    strip.setPixelColor(randN6, color1);
+    strip.setPixelColor(randN7, color1);
+    strip.setPixelColor(randN8, color1);
+    strip.setPixelColor(randN9, color1);
+    strip.setPixelColor(randN10, color1);
+    strip.setPixelColor(randN11, color1);
+    strip.setPixelColor(randN, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN1, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN2, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN3, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN4, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN5, strip.Color(0, 0, 0));
+    strip.show();
+    delay(wait);
+    strip.setPixelColor(randN6, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN7, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN8, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN9, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN10, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN11, strip.Color(0, 0, 0));
+    strip.show();    
+    }
 }
