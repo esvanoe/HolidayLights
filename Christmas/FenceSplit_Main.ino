@@ -224,7 +224,7 @@ void colorOff(uint16_t wait) {
 }
 
 void twinkle(uint8_t wait, uint32_t color1) {
-  for(uint8_t f=0; f<201; f++) {
+  for(uint8_t f=0; f<101; f++) {
     randN = random(0, 175);
     randN1 = random(176, 350);
     randN2 = random(0, 175);
