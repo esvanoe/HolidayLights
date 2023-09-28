@@ -13,7 +13,7 @@ void colorSplit(uint16_t wait);
 void colorOff(uint16_t wait, uint16_t down, uint16_t up);
 void colorChase(uint8_t reps, uint16_t speed);
 void rgbTwinkle(uint8_t reps, uint16_t speed);
-void twinkleWhite(uint8_t wait, uint32_t color1);
+void twinkle(uint8_t wait, uint32_t color1);
 long randN; 
 long randN1;
 long randN2;
@@ -47,17 +47,23 @@ void setup() {
 }
 
 void loop() {
-  twinkleWhite(15, strip.Color(250, 250, 250));
+  twinkle(15, strip.Color(250, 250, 250)); // Speed, Color
   rgbTwinkle(10, 300); // Reps, Speed
   colorFade(2, 10); //reps, speed
-  colorOff(100);    // wait
+  colorOff(200);
+  twinkle(15, strip.Color(250, 0, 0)); // Speed, Color
+  colorOff(200);    // wait
   colorSplit(100, strip.numPixels()/2, strip.numPixels()/2+1); // wait, down, up
+  colorOff(200);    // wait
+  colorSplit(100, strip.numPixels()/2, strip.numPixels()/2+1); // wait, down, up
+  colorOff(200);
+  twinkle(15, strip.Color(0, 0, 250)); // Speed, Color)
   colorFade(2, 10); //reps, speed
-  colorOff(100);    // wait
+  colorOff(200);    // wait
   colorChase(3, 5);    // reps, speed
-  colorOff(100);    // wait
+  colorOff(200);    // wait
   colorSplit(100, strip.numPixels()/2, strip.numPixels()/2+1);   // wait, down, up
-  colorOff(100);    // wait
+  colorOff(200);    // wait
 }
 
 void rgbTwinkle(uint8_t reps, uint16_t speed) {
@@ -217,7 +223,7 @@ void colorOff(uint16_t wait) {
   delay(wait);
 }
 
-void twinkleWhite(uint8_t wait, uint32_t color1) {
+void twinkle(uint8_t wait, uint32_t color1) {
   for(uint8_t f=0; f<201; f++) {
     randN = random(0, 175);
     randN1 = random(176, 350);
