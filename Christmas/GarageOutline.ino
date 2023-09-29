@@ -19,13 +19,7 @@ SYSTEM_THREAD(ENABLED);
 #define PIXEL_PIN D5
 #define PIXEL_TYPE WS2811
 
-
 Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
-
-// IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
-// pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
-// and minimize distance between Arduino and first pixel.  Avoid connecting
-// on a live circuit...if you must, connect GND first.
 
 void setup() {
   strip.setBrightness(95);
