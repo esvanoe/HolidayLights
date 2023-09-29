@@ -29,16 +29,22 @@ void setup() {
 }
 
 void loop() {
-//  colorFade(3, 50); //reps, wait
+  colorFade(1, 50); //reps, wait
   slowColor(50, strip.Color(2.5, 0.5, 0.1));
+  colorFade(1, 50); //reps, wait
   slowColor(50, strip.Color(2.5, 0, 2.5));
+  colorFade(1, 50); //reps, wait
   slowColor(50, strip.Color(0, 2.5, 0));
+  colorFade(1, 50); //reps, wait
   colorOff(200);
   colorWipe(100);   // wait
+  colorFade(1, 50); //reps, wait
   colorOff(100);
   colorWipe(30);   // wait
+  colorFade(1, 50); //reps, wait
   colorOff(100);
   colorWipe(100);   // wait
+  colorOff(100);
 }
 
 void colorFade(uint8_t reps, uint16_t wait) {
