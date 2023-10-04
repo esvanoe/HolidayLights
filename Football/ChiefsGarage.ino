@@ -30,7 +30,7 @@ STARTUP(WiFi.selectAntenna(ANT_EXTERNAL));
 
 // IMPORTANT: Set pixel COUNT, PIN and TYPE
 //Order of WS2811  - R -> G -> B
-#define PIXEL_COUNT 350
+#define PIXEL_COUNT 320
 #define PIXEL_PIN D6
 #define PIXEL_TYPE WS2811
 
@@ -122,18 +122,18 @@ void colorFlash(uint16_t wait) {
 
 void twinkleWhite(uint8_t wait, uint32_t color1, uint32_t color2) {
   for(uint8_t f=0; f<201; f++) {
-    randN = random(0, 175);
-    randN1 = random(176, 350);
-    randN2 = random(0, 175);
-    randN3 = random(176, 350);
-    randN4 = random(0, 175);
-    randN5 = random(176, 350);
-    randN6 = random(0, 175);
-    randN7 = random(176, 350);
-    randN8 = random(0, 175);
-    randN9 = random(176, 350);
-    randN10 = random(0, 175);
-    randN11 = random(176, 350);
+    randN = random(0, strip.numPixels()/2);
+    randN1 = random(strip.numPixels()/2+1, strip.numPixels());
+    randN2 = random(0, strip.numPixels()/2);
+    randN3 = random(strip.numPixels()/2+1, strip.numPixels());
+    randN4 = random(0, strip.numPixels()/2);
+    randN5 = random(strip.numPixels()/2+1, strip.numPixels());
+    randN6 = random(0, strip.numPixels()/2);
+    randN7 = random(strip.numPixels()/2+1, strip.numPixels());
+    randN8 = random(0, strip.numPixels()/2);
+    randN9 = random(strip.numPixels()/2+1, strip.numPixels());
+    randN10 = random(0, strip.numPixels()/2);
+    randN11 = random(strip.numPixels()/2+1, strip.numPixels());
     strip.setPixelColor(randN, color1);
     strip.setPixelColor(randN1, color1);
     strip.setPixelColor(randN2, color2);
