@@ -1,13 +1,12 @@
 /* 
 This is a copy of my first fence code. THIS ONE IS FOR PLAYING/TESTING
-
-
 */ 
 
 /* ======================= includes ================================= */
 #include "Particle.h"
 #include "neopixel.h"
 /* ======================= functions =============================== */
+
 void colorFade(uint8_t reps, uint16_t speed);
 void colorSplit(uint16_t wait);
 void colorOff(uint16_t wait, uint16_t down, uint16_t up);
@@ -40,6 +39,12 @@ STARTUP(WiFi.selectAntenna(ANT_EXTERNAL));
 
 Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 
+uint32_t red = strip.Color(250, 0, 0);
+uint32_t green = strip.Color(0, 250, 0);
+uint32_t blue = strip.Color(0, 0, 250);
+uint32_t white = strip.Color(250, 250, 250);
+uint32_t off = strip.Color(0, 0, 0);
+
 void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
@@ -47,11 +52,11 @@ void setup() {
 }
 
 void loop() {
-  twinkle(25, strip.Color(250, 250, 250)); // Speed, Color
+  twinkle(25, white); // Speed, Color
   rgbTwinkle(100, 500); // Reps, Speed
   colorFade(2, 10); //reps, speed
   colorOff(200);
-  twinkle(25, strip.Color(250, 0, 0)); // Speed, Color
+  twinkle(25, red); // Speed, Color
   colorOff(200);    // wait
   rgbTwinkle(100, 500); // Reps, Speed
   colorOff(200);
@@ -59,7 +64,7 @@ void loop() {
   colorOff(200);    // wait
   colorSplit(100, strip.numPixels()/2, strip.numPixels()/2+1); // wait, down, up
   colorOff(200);
-  twinkle(25, strip.Color(0, 0, 250)); // Speed, Color)
+  twinkle(25, blue); // Speed, Color)
   colorFade(2, 10); //reps, speed
   colorOff(200);    // wait
   colorChase(3, 5);    // reps, speed
@@ -71,23 +76,23 @@ void loop() {
 void rgbTwinkle(uint8_t reps, uint16_t speed) {
   for(uint8_t count=0; count<reps; count++) {
     for(uint16_t i=0; i<strip.numPixels(); i+=3) {
-      strip.setPixelColor(i, 255, 0, 0);
-      strip.setPixelColor(i+1, 0, 255, 0);
-      strip.setPixelColor(i+2, 0, 0, 255);
+      strip.setPixelColor(i, red);
+      strip.setPixelColor(i+1, green);
+      strip.setPixelColor(i+2, blue);
     }
     strip.show();
     delay(speed);
     for(uint16_t i=0; i<strip.numPixels(); i+=3) {
-      strip.setPixelColor(i, 0, 255, 0);
-      strip.setPixelColor(i+1, 0, 0, 255);
-      strip.setPixelColor(i+2, 255, 0, 0);
+      strip.setPixelColor(i, green);
+      strip.setPixelColor(i+1, blue);
+      strip.setPixelColor(i+2, red);
     }
     strip.show();
     delay(speed);
     for(uint16_t i=0; i<strip.numPixels(); i+=3) {
-      strip.setPixelColor(i, 0, 0, 255);
-      strip.setPixelColor(i+1, 255, 0, 0);
-      strip.setPixelColor(i+2, 0, 255, 0);
+      strip.setPixelColor(i, blue);
+      strip.setPixelColor(i+1, red);
+      strip.setPixelColor(i+2, green);
     }
     strip.show();
     delay(speed);
@@ -145,10 +150,10 @@ void colorFade(uint8_t reps, uint16_t speed) {
 // Fill the dots two after two with a color, wait (ms) after each one
 void colorSplit(uint16_t wait, uint16_t down, uint16_t up) {
   while(down>=0 && up<=350) {
-    strip.setPixelColor(up, strip.Color(0, 0, 250));
-    strip.setPixelColor(up+1, strip.Color(0, 0, 250));
-    strip.setPixelColor(down, strip.Color(0, 0, 250));
-    strip.setPixelColor(down-1, strip.Color(0, 0, 250));
+    strip.setPixelColor(up, blue);
+    strip.setPixelColor(up+1, blue);
+    strip.setPixelColor(down, blue);
+    strip.setPixelColor(down-1, blue);
     strip.show();
     delay(wait);
     up+=4;
@@ -157,10 +162,10 @@ void colorSplit(uint16_t wait, uint16_t down, uint16_t up) {
   down=strip.numPixels()/2;
   up=strip.numPixels()/2+1;
   while(down>=0 && up<=strip.numPixels()) {
-    strip.setPixelColor(up+2, strip.Color(250, 250, 250));
-    strip.setPixelColor(up+3, strip.Color(250, 250, 250));
-    strip.setPixelColor(down-2, strip.Color(250, 250, 250));
-    strip.setPixelColor(down-3, strip.Color(250, 250, 250));
+    strip.setPixelColor(up+2, white);
+    strip.setPixelColor(up+3, white);
+    strip.setPixelColor(down-2, white);
+    strip.setPixelColor(down-3, white);
     strip.show();
     delay(wait);
     up+=4;
@@ -179,37 +184,37 @@ void colorChase(uint8_t reps, uint16_t speed) {
         strip.setPixelColor(i-47, 0, 0, 250);
         strip.setPixelColor(i-48, 0, 0, 250);
         strip.setPixelColor(i-49, 0, 0, 250);
-        strip.setPixelColor(i-50, 0, 0, 0);
+        strip.setPixelColor(i-50, off);
       }
       if(i>100) {
         strip.setPixelColor(i-97, 0, 0, 250);
         strip.setPixelColor(i-98, 0, 0, 250);
         strip.setPixelColor(i-99, 0, 0, 250);
-        strip.setPixelColor(i-100, 0, 0, 0);
+        strip.setPixelColor(i-100, off);
       }
       if(i>150) {
         strip.setPixelColor(i-147, 0, 0, 250);
         strip.setPixelColor(i-148, 0, 0, 250);
         strip.setPixelColor(i-149, 0, 0, 250);
-        strip.setPixelColor(i-150, 0, 0, 0);
+        strip.setPixelColor(i-150, off);
       }
       if(i>200) {
         strip.setPixelColor(i-197, 0, 0, 250);
         strip.setPixelColor(i-198, 0, 0, 250);
         strip.setPixelColor(i-199, 0, 0, 250);
-        strip.setPixelColor(i-200, 0, 0, 0);
+        strip.setPixelColor(i-200, off);
       }
       if(i>250) {
         strip.setPixelColor(i-247, 0, 0, 250);
         strip.setPixelColor(i-248, 0, 0, 250);
         strip.setPixelColor(i-249, 0, 0, 250);
-        strip.setPixelColor(i-250, 0, 0, 0);
+        strip.setPixelColor(i-250, off);
       }
       if(i>300) {
         strip.setPixelColor(i-297, 0, 0, 250);
         strip.setPixelColor(i-298, 0, 0, 250);
         strip.setPixelColor(i-299, 0, 0, 250);
-        strip.setPixelColor(i-300, 250, 250, 250);
+        strip.setPixelColor(i-300, white);
       }
     strip.show();
     delay(speed);
@@ -253,20 +258,20 @@ void twinkle(uint8_t wait, uint32_t color1) {
     strip.setPixelColor(randN9, color1);
     strip.setPixelColor(randN10, color1);
     strip.setPixelColor(randN11, color1);
-    strip.setPixelColor(randN, strip.Color(0, 0, 0));
-    strip.setPixelColor(randN1, strip.Color(0, 0, 0));
-    strip.setPixelColor(randN2, strip.Color(0, 0, 0));
-    strip.setPixelColor(randN3, strip.Color(0, 0, 0));
-    strip.setPixelColor(randN4, strip.Color(0, 0, 0));
-    strip.setPixelColor(randN5, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN, off);
+    strip.setPixelColor(randN1, off);
+    strip.setPixelColor(randN2, off);
+    strip.setPixelColor(randN3, off);
+    strip.setPixelColor(randN4, off);
+    strip.setPixelColor(randN5, off);
     strip.show();
     delay(wait);
-    strip.setPixelColor(randN6, strip.Color(0, 0, 0));
-    strip.setPixelColor(randN7, strip.Color(0, 0, 0));
-    strip.setPixelColor(randN8, strip.Color(0, 0, 0));
-    strip.setPixelColor(randN9, strip.Color(0, 0, 0));
-    strip.setPixelColor(randN10, strip.Color(0, 0, 0));
-    strip.setPixelColor(randN11, strip.Color(0, 0, 0));
+    strip.setPixelColor(randN6, off);
+    strip.setPixelColor(randN7, off);
+    strip.setPixelColor(randN8, off);
+    strip.setPixelColor(randN9, off);
+    strip.setPixelColor(randN10, off);
+    strip.setPixelColor(randN11, off);
     strip.show();    
     }
 }
