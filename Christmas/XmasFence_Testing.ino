@@ -52,23 +52,24 @@ void setup() {
 }
 
 void loop() {
-  twinkle(25, white); // Speed, Color
-  rgbTwinkle(100, 500); // Reps, Speed
-  colorFade(2, 10); //reps, speed
+  twinkle(50, white); // Speed, Color
+  rgbTwinkle(25, 1000); // Reps, Speed
+  twinkle(50, white); // Speed, Color
+  colorFade(1, 10); //reps, speed
   colorOff(200);
   twinkle(25, red); // Speed, Color
   colorOff(200);    // wait
-  rgbTwinkle(100, 500); // Reps, Speed
-  colorOff(200);
+  rgbTwinkle(25, 1000); // Reps, Speed
+  colorOff(250);
   colorSplit(100, strip.numPixels()/2, strip.numPixels()/2+1); // wait, down, up
-  colorOff(200);    // wait
+  colorOff(250);    // wait
   colorSplit(100, strip.numPixels()/2, strip.numPixels()/2+1); // wait, down, up
-  colorOff(200);
+  colorOff(250);
   twinkle(25, blue); // Speed, Color)
-  colorFade(2, 10); //reps, speed
-  colorOff(200);    // wait
+  colorFade(1, 10); //reps, speed
+  colorOff(250);    // wait
   colorChase(3, 5);    // reps, speed
-  colorOff(200);    // wait
+  colorOff(250);    // wait
   colorSplit(100, strip.numPixels()/2, strip.numPixels()/2+1);   // wait, down, up
   colorOff(200);    // wait
 }
