@@ -8,8 +8,8 @@ This is a copy of my first fence code. THIS ONE IS FOR PLAYING/TESTING
 /* ======================= functions =============================== */
 
 void colorFade(uint8_t reps, uint16_t speed);
-void colorSplit(uint16_t wait);
-void colorOff(uint16_t wait, uint16_t down, uint16_t up);
+void colorSplit(uint16_t wait, uint32_t split1, uint32_t split2);
+void colorOff(uint16_t wait);
 void colorChase(uint8_t reps, uint16_t speed, uint32_t rabbit, uint32_t blanket);
 void rgbTwinkle(uint8_t reps, uint16_t speed);
 void twinkle(uint8_t wait, uint32_t color1);
@@ -56,30 +56,34 @@ void setup() {
 }
 
 void loop() {
+  rgbTwinkle(20, 800); // Reps, Speed
   twinkle(35, white); // Speed, Color
-  rgbTwinkle(35, 1000); // Reps, Speed
+  colorOff(50);
+  rgbTwinkle(20, 800); // Reps, Speed
   colorChase(3, 5, blue, green);    // reps, speed, rabbit, blanket
-//  twinkle(35, white); // Speed, Color
+  rgbTwinkle(15, 800); // Reps, Speed
+  twinkle(35, white); // Speed, Color
+  colorOff(50);
   colorFade(2, 15); //reps, speed
-//  twinkle(35, red); // Speed, Color
+  twinkle(35, red); // Speed, Color
+  colorOff(50);    // wait
+  rgbTwinkle(20, 800); // Reps, Speed
+  colorOff(50);
+  colorSplit(100, blue, white); // wait, down, up
   colorOff(200);    // wait
-  rgbTwinkle(35, 1000); // Reps, Speed
-  colorOff(200);
-  colorSplit(100, strip.numPixels()/2, strip.numPixels()/2+1); // wait, down, up
-  colorOff(200);    // wait
-  colorSplit(100, strip.numPixels()/2, strip.numPixels()/2+1); // wait, down, up
-  colorOff(200);
+  colorSplit(100, green, blue); // wait, down, up
   twinkle(35, blue); // Speed, Color)
+  colorOff(50);
   colorFade(2, 15); //reps, speed
-  colorOff(200);    // wait
+  colorOff(50);    // wait
   colorChase(3, 5, red, blue);    // reps, speed, rabbit, blanket
   twinkle(35, white); // Speed, Color
-  colorOff(200);
+  colorOff(50);
   colorChase(3, 5, green, blue);    // reps, speed, rabbit, blanket
   twinkle(35, white); // Speed, Color
-  colorOff(200);    // wait
-  colorSplit(100, strip.numPixels()/2, strip.numPixels()/2+1);   // wait, down, up
-  colorOff(200);    // wait
+  colorOff(50);    // wait
+  colorSplit(100, red, blue);   // wait, down, up
+  colorOff(50);    // wait
 }
 
 void rgbTwinkle(uint8_t reps, uint16_t speed) {
@@ -157,12 +161,14 @@ void colorFade(uint8_t reps, uint16_t speed) {
 }
 
 // Fill the dots two after two with a color, wait (ms) after each one
-void colorSplit(uint16_t wait, uint16_t down, uint16_t up) {
+void colorSplit(uint16_t wait, uint32_t split1, uint32_t split2) {
+  uint16_t down=strip.numPixels()/2;
+  uint16_t up=strip.numPixels()/2+1;
   while(down>=0 && up<=350) {
-    strip.setPixelColor(up, blue);
-    strip.setPixelColor(up+1, blue);
-    strip.setPixelColor(down, blue);
-    strip.setPixelColor(down-1, blue);
+    strip.setPixelColor(up, split1);
+    strip.setPixelColor(up+1, split1);
+    strip.setPixelColor(down, split1);
+    strip.setPixelColor(down-1, split1);
     strip.show();
     delay(wait);
     up+=4;
@@ -171,10 +177,10 @@ void colorSplit(uint16_t wait, uint16_t down, uint16_t up) {
   down=strip.numPixels()/2;
   up=strip.numPixels()/2+1;
   while(down>=0 && up<=strip.numPixels()) {
-    strip.setPixelColor(up+2, white);
-    strip.setPixelColor(up+3, white);
-    strip.setPixelColor(down-2, white);
-    strip.setPixelColor(down-3, white);
+    strip.setPixelColor(up+2, split2);
+    strip.setPixelColor(up+3, split2);
+    strip.setPixelColor(down-2, split2);
+    strip.setPixelColor(down-3, split2);
     strip.show();
     delay(wait);
     up+=4;
@@ -187,7 +193,7 @@ void colorChase(uint8_t reps, uint16_t speed, uint32_t rabbit, uint32_t blanket)
     for(uint16_t i=0; i<strip.numPixels()+300; i++) {
       strip.setPixelColor(i, 0, 0, 250);
       if(i>2) {
-        strip.setPixelColor(i-3, 0, 0, 0);
+        strip.setPixelColor(i-3, rabbit);
         }
       if(i>50) {
         strip.setPixelColor(i-47, rabbit);
