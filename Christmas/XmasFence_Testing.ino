@@ -13,7 +13,7 @@ void colorOff(uint16_t wait);
 void colorChase(uint8_t reps, uint16_t speed, uint32_t rabbit, uint32_t blanket);
 void rgbTwinkle(uint8_t reps, uint16_t speed);
 void twinkle(uint8_t wait, uint32_t color1);
-void KITT(uint8_t wait, uint32_t color1);
+void KITT(uint8_t reps, uint8_t wait, uint32_t color1);
 long randN; 
 long randN1;
 long randN2;
@@ -59,13 +59,12 @@ void setup() {
 }
 
 void loop() {
-  KITT(50, blue);
+  KITT(3, 50, blue); // Reps, Speed, Color
   colorOff(50);
-  KITT(20, red);
+  KITT(3, 20, red); // Reps, Speed, Color
   colorOff(50);
-  KITT(10, green);
+  KITT(3, 10, green); // Reps, Speed, Color
   colorOff(50);
-/*
   rgbTwinkle(13, 800); // Reps, Speed
   twinkle(35, white); // Speed, Color
   colorOff(50);
@@ -75,6 +74,12 @@ void loop() {
   colorOff(50);
   colorFade(2, 15); //reps, speed
   twinkle(35, red); // Speed, Color
+  KITT(3, 50, blue); // Reps, Speed, Color
+  colorOff(50);
+  KITT(3, 20, red); // Reps, Speed, Color
+  colorOff(50);
+  KITT(3, 10, green); // Reps, Speed, Color
+  colorOff(50);
   colorOff(50);    // wait
   rgbTwinkle(20, 800); // Reps, Speed
   colorOff(50);
@@ -98,7 +103,6 @@ void loop() {
   colorOff(50);    // wait
   colorSplit(100, red, blue);   // wait, down, up
   colorOff(50);    // wait
-*/
 }
 
 void rgbTwinkle(uint8_t reps, uint16_t speed) {
@@ -319,33 +323,35 @@ void twinkle(uint8_t wait, uint32_t color1) {
 }
 
 // Working on a KITT chase feature
-void KITT(uint8_t wait, uint32_t color1) {
-  uint16_t segLength=30;
-  uint8_t chunks=length/segLength;
-  for(uint8_t i=0; i<segLength; i++) {
-    for(uint8_t f=0; f<chunks-1; f++) {
-      uint16_t light=f*segLength+i;
-      strip.setPixelColor(light, color1);
-    }  
-    strip.show();
-    delay(wait);
-    for(uint8_t f=0; f<chunks-1; f++) {
-      uint16_t light=f*segLength+i;
-      strip.setPixelColor(light-1, off);
-    }
-  }
-    strip.show();
-    delay(wait);
-  for(uint8_t i=segLength-1; i>=1; i--) {
-    for(uint8_t f=chunks-1; f>0; f--) {
-      uint16_t light=f*segLength+i;
-      strip.setPixelColor(light, color1);
+void KITT(uint8_t reps, uint8_t wait, uint32_t color1) {
+  for(uint8_t count=0; count<reps; count++) { 
+    uint16_t segLength=30;
+    uint8_t chunks=length/segLength;
+    for(uint8_t i=0; i<segLength; i++) {
+      for(uint8_t f=0; f<chunks-1; f++) {
+        uint16_t light=f*segLength+i;
+        strip.setPixelColor(light, color1);
       }  
-    strip.show();
-    delay(wait);
-    for(uint8_t f=chunks-1; f>0; f--) {
-      uint16_t light=f*segLength+i;
-      strip.setPixelColor(light+1, off);
+      strip.show();
+      delay(wait);
+      for(uint8_t f=0; f<chunks-1; f++) {
+        uint16_t light=f*segLength+i;
+        strip.setPixelColor(light-1, off);
+      }
+    }
+      strip.show();
+      delay(wait);
+    for(uint8_t i=segLength-1; i>=1; i--) {
+      for(uint8_t f=chunks-1; f>0; f--) {
+        uint16_t light=f*segLength+i;
+        strip.setPixelColor(light, color1);
+        }  
+      strip.show();
+      delay(wait);
+      for(uint8_t f=chunks-1; f>0; f--) {
+        uint16_t light=f*segLength+i;
+        strip.setPixelColor(light+1, off);
+      }
     }
   }
 }
