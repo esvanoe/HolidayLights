@@ -13,6 +13,7 @@ void colorOff(uint16_t wait);
 void colorChase(uint8_t reps, uint16_t speed, uint32_t rabbit, uint32_t blanket);
 void rgbTwinkle(uint8_t reps, uint16_t speed);
 void twinkle(uint8_t wait, uint32_t color1);
+void KITT(uint8_t wait, uint32_t color1);
 long randN; 
 long randN1;
 long randN2;
@@ -48,6 +49,8 @@ uint32_t green = strip.Color(0, 250, 0);
 uint32_t blue = strip.Color(0, 0, 250);
 uint32_t white = strip.Color(250, 250, 250);
 uint32_t off = strip.Color(0, 0, 0);
+uint16_t half=strip.numPixels()/2;
+uint16_t length=strip.numPixels();
 
 void setup() {
   strip.begin();
@@ -56,12 +59,18 @@ void setup() {
 }
 
 void loop() {
-  rgbTwinkle(20, 800); // Reps, Speed
+  KITT(50, blue);
+  colorOff(50);
+  KITT(20, red);
+  colorOff(50);
+  KITT(10, green);
+  colorOff(50);
+/*
+  rgbTwinkle(13, 800); // Reps, Speed
   twinkle(35, white); // Speed, Color
   colorOff(50);
-  rgbTwinkle(20, 800); // Reps, Speed
+  rgbTwinkle(13, 800); // Reps, Speed
   colorChase(3, 5, blue, green);    // reps, speed, rabbit, blanket
-  rgbTwinkle(15, 800); // Reps, Speed
   twinkle(35, white); // Speed, Color
   colorOff(50);
   colorFade(2, 15); //reps, speed
@@ -73,7 +82,12 @@ void loop() {
   colorOff(200);    // wait
   colorSplit(100, green, blue); // wait, down, up
   twinkle(35, blue); // Speed, Color)
+  rgbTwinkle(13, 800); // Reps, Speed
   colorOff(50);
+  colorSplit(100, red, green); // wait, down, up
+  twinkle(35, blue); // Speed, Color)
+  colorOff(50);
+  rgbTwinkle(13, 800); // Reps, Speed  
   colorFade(2, 15); //reps, speed
   colorOff(50);    // wait
   colorChase(3, 5, red, blue);    // reps, speed, rabbit, blanket
@@ -84,25 +98,26 @@ void loop() {
   colorOff(50);    // wait
   colorSplit(100, red, blue);   // wait, down, up
   colorOff(50);    // wait
+*/
 }
 
 void rgbTwinkle(uint8_t reps, uint16_t speed) {
   for(uint8_t count=0; count<reps; count++) {
-    for(uint16_t i=0; i<strip.numPixels(); i+=3) {
+    for(uint16_t i=0; i<length; i+=3) {
       strip.setPixelColor(i, red);
       strip.setPixelColor(i+1, green);
       strip.setPixelColor(i+2, blue);
     }
     strip.show();
     delay(speed);
-    for(uint16_t i=0; i<strip.numPixels(); i+=3) {
+    for(uint16_t i=0; i<length; i+=3) {
       strip.setPixelColor(i, green);
       strip.setPixelColor(i+1, blue);
       strip.setPixelColor(i+2, red);
     }
     strip.show();
     delay(speed);
-    for(uint16_t i=0; i<strip.numPixels(); i+=3) {
+    for(uint16_t i=0; i<length; i+=3) {
       strip.setPixelColor(i, blue);
       strip.setPixelColor(i+1, red);
       strip.setPixelColor(i+2, green);
@@ -116,42 +131,42 @@ void rgbTwinkle(uint8_t reps, uint16_t speed) {
 void colorFade(uint8_t reps, uint16_t speed) {
   for(uint8_t count=0; count<reps; count++) {
     for(uint16_t bright=5; bright<250; bright+=5) {
-      for(uint16_t i=0; i<strip.numPixels(); i++) {
+      for(uint16_t i=0; i<length; i++) {
         strip.setPixelColor(i, strip.Color(bright, 0, 0));
       }
       strip.show();
       delay(speed);
     }
       for(uint16_t bright=250; bright>5; bright-=5) {
-        for(uint16_t i=0; i<strip.numPixels(); i++) {
+        for(uint16_t i=0; i<length; i++) {
           strip.setPixelColor(i, strip.Color(bright, 0, 0));
         }
         strip.show();
         delay(speed);
       }
     for(uint16_t bright=5; bright<250; bright+=5) {
-      for(uint16_t i=0; i<strip.numPixels(); i++) {
+      for(uint16_t i=0; i<length; i++) {
         strip.setPixelColor(i, strip.Color(0, bright, 0));
       }
       strip.show();
       delay(speed);
     }
       for(uint16_t bright=250; bright>5; bright-=5) {
-        for(uint16_t i=0; i<strip.numPixels(); i++) {
+        for(uint16_t i=0; i<length; i++) {
           strip.setPixelColor(i, strip.Color(0, bright, 0));
         }
         strip.show();
         delay(speed);
       }
     for(uint16_t bright=1; bright<250; bright+=5) {
-      for(uint16_t i=0; i<strip.numPixels(); i++) {
+      for(uint16_t i=0; i<length; i++) {
         strip.setPixelColor(i, strip.Color(0, 0, bright));
       }
       strip.show();
       delay(speed);
     }
       for(uint16_t bright=250; bright>10; bright-=5) {
-        for(uint16_t i=0; i<strip.numPixels(); i++) {
+        for(uint16_t i=0; i<length; i++) {
           strip.setPixelColor(i, strip.Color(0, 0, bright));
         }
         strip.show();
@@ -162,8 +177,8 @@ void colorFade(uint8_t reps, uint16_t speed) {
 
 // Fill the dots two after two with a color, wait (ms) after each one
 void colorSplit(uint16_t wait, uint32_t split1, uint32_t split2) {
-  uint16_t down=strip.numPixels()/2;
-  uint16_t up=strip.numPixels()/2+1;
+  uint16_t down=half;
+  uint16_t up=half+1;
   while(down>=0 && up<=350) {
     strip.setPixelColor(up, split1);
     strip.setPixelColor(up+1, split1);
@@ -176,7 +191,7 @@ void colorSplit(uint16_t wait, uint32_t split1, uint32_t split2) {
   }
   down=strip.numPixels()/2;
   up=strip.numPixels()/2+1;
-  while(down>=0 && up<=strip.numPixels()) {
+  while(down>=0 && up<=length) {
     strip.setPixelColor(up+2, split2);
     strip.setPixelColor(up+3, split2);
     strip.setPixelColor(down-2, split2);
@@ -190,10 +205,10 @@ void colorSplit(uint16_t wait, uint32_t split1, uint32_t split2) {
 
 void colorChase(uint8_t reps, uint16_t speed, uint32_t rabbit, uint32_t blanket) {
   for(uint8_t count=0; count<reps; count++) {    
-    for(uint16_t i=0; i<strip.numPixels()+300; i++) {
-      strip.setPixelColor(i, 0, 0, 250);
+    for(uint16_t i=0; i<length+300; i++) {
+      strip.setPixelColor(i, rabbit);
       if(i>2) {
-        strip.setPixelColor(i-3, rabbit);
+        strip.setPixelColor(i-3, off);
         }
       if(i>50) {
         strip.setPixelColor(i-47, rabbit);
@@ -238,8 +253,8 @@ void colorChase(uint8_t reps, uint16_t speed, uint32_t rabbit, uint32_t blanket)
 }
 
 void colorOff(uint16_t wait) {
-  for(uint16_t f=0; f-1<strip.numPixels(); f++) {
-    strip.setPixelColor(f, strip.Color(0, 0, 0));
+  for(uint16_t f=0; f<length+5; f++) {
+    strip.setPixelColor(f, off);
     }
   strip.show();
   delay(wait);
@@ -247,22 +262,22 @@ void colorOff(uint16_t wait) {
 
 void twinkle(uint8_t wait, uint32_t color1) {
   for(uint8_t f=0; f<101; f++) {
-    randN = random(0, 175);
-    randN1 = random(176, 350);
-    randN2 = random(0, 175);
-    randN3 = random(176, 350);
-    randN4 = random(0, 175);
-    randN5 = random(176, 350);
-    randN6 = random(0, 175);
-    randN7 = random(176, 350);
-    randN8 = random(0, 175);
-    randN9 = random(176, 350);
-    randN10 = random(0, 175);
-    randN11 = random(176, 350);
-    randN12 = random(0, 175);
-    randN13 = random(176, 350);
-    randN14 = random(0, 175);
-    randN15 = random(176, 350);
+    randN = random(0, half);
+    randN1 = random(half+1, length);
+    randN2 = random(0, half);
+    randN3 = random(half+1, length);
+    randN4 = random(0, half);
+    randN5 = random(half+1, length);
+    randN6 = random(0, half);
+    randN7 = random(half+1, length);
+    randN8 = random(0, half);
+    randN9 = random(half+1, length);
+    randN10 = random(0, half);
+    randN11 = random(half+1, length);
+    randN12 = random(0, half);
+    randN13 = random(half+1, length);
+    randN14 = random(0, half);
+    randN15 = random(half+1, length);
     strip.setPixelColor(randN, color1);
     strip.setPixelColor(randN1, color1);
     strip.setPixelColor(randN2, color1);
@@ -301,4 +316,36 @@ void twinkle(uint8_t wait, uint32_t color1) {
     strip.setPixelColor(randN15, off);
     strip.show();    
     }
+}
+
+// Working on a KITT chase feature
+void KITT(uint8_t wait, uint32_t color1) {
+  uint16_t segLength=30;
+  uint8_t chunks=length/segLength;
+  for(uint8_t i=0; i<segLength; i++) {
+    for(uint8_t f=0; f<chunks-1; f++) {
+      uint16_t light=f*segLength+i;
+      strip.setPixelColor(light, color1);
+    }  
+    strip.show();
+    delay(wait);
+    for(uint8_t f=0; f<chunks-1; f++) {
+      uint16_t light=f*segLength+i;
+      strip.setPixelColor(light-1, off);
+    }
+  }
+    strip.show();
+    delay(wait);
+  for(uint8_t i=segLength-1; i>=1; i--) {
+    for(uint8_t f=chunks-1; f>0; f--) {
+      uint16_t light=f*segLength+i;
+      strip.setPixelColor(light, color1);
+      }  
+    strip.show();
+    delay(wait);
+    for(uint8_t f=chunks-1; f>0; f--) {
+      uint16_t light=f*segLength+i;
+      strip.setPixelColor(light+1, off);
+    }
+  }
 }
