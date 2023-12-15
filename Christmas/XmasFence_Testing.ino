@@ -13,7 +13,7 @@ void colorOff(uint16_t wait);
 void colorChase(uint8_t reps, uint16_t speed, uint32_t rabbit, uint32_t blanket);
 void rgbTwinkle(uint8_t reps, uint16_t speed);
 void twinkle(uint8_t wait, uint32_t color1);
-void KITT(uint8_t reps, uint8_t wait, uint32_t color1);
+void KITT(uint8_t reps, uint8_t segLength, uint8_t wait, uint32_t color1);
 long randN; 
 long randN1;
 long randN2;
@@ -59,48 +59,47 @@ void setup() {
 }
 
 void loop() {
-  KITT(3, 50, blue); // Reps, Speed, Color
+  KITT(3, 30, 30, blue); // Reps, segLength, Speed, Color
   colorOff(50);
-  KITT(3, 20, red); // Reps, Speed, Color
+  KITT(3, 30, 30, red); // Reps, segLength, Speed, Color
   colorOff(50);
-  KITT(3, 10, green); // Reps, Speed, Color
-  colorOff(50);
-  rgbTwinkle(13, 800); // Reps, Speed
+  rgbTwinkle(10, 800); // Reps, Speed
   twinkle(35, white); // Speed, Color
   colorOff(50);
-  rgbTwinkle(13, 800); // Reps, Speed
+  rgbTwinkle(10, 800); // Reps, Speed
   colorChase(3, 5, blue, green);    // reps, speed, rabbit, blanket
   twinkle(35, white); // Speed, Color
   colorOff(50);
   colorFade(2, 15); //reps, speed
   twinkle(35, red); // Speed, Color
-  KITT(3, 50, blue); // Reps, Speed, Color
-  colorOff(50);
-  KITT(3, 20, red); // Reps, Speed, Color
-  colorOff(50);
-  KITT(3, 10, green); // Reps, Speed, Color
-  colorOff(50);
+  KITT(3, 30, 30, green); // Reps, segLength, Speed, Color
   colorOff(50);    // wait
-  rgbTwinkle(20, 800); // Reps, Speed
+  rgbTwinkle(10, 800); // Reps, Speed
   colorOff(50);
   colorSplit(100, blue, white); // wait, down, up
   colorOff(200);    // wait
   colorSplit(100, green, blue); // wait, down, up
   twinkle(35, blue); // Speed, Color)
-  rgbTwinkle(13, 800); // Reps, Speed
+  KITT(3, 30, 30, blue); // Reps, segLength, Speed, Color
+  colorOff(50);
+  rgbTwinkle(10, 800); // Reps, Speed
   colorOff(50);
   colorSplit(100, red, green); // wait, down, up
   twinkle(35, blue); // Speed, Color)
   colorOff(50);
-  rgbTwinkle(13, 800); // Reps, Speed  
+  rgbTwinkle(10, 800); // Reps, Speed  
   colorFade(2, 15); //reps, speed
   colorOff(50);    // wait
+  KITT(3, 30, 30, green); // Reps, segLength, Speed, Color
+  colorOff(50);
   colorChase(3, 5, red, blue);    // reps, speed, rabbit, blanket
   twinkle(35, white); // Speed, Color
   colorOff(50);
   colorChase(3, 5, green, blue);    // reps, speed, rabbit, blanket
   twinkle(35, white); // Speed, Color
   colorOff(50);    // wait
+  KITT(3, 30, 30, red); // Reps, segLength, Speed, Color
+  colorOff(50);
   colorSplit(100, red, blue);   // wait, down, up
   colorOff(50);    // wait
 }
@@ -322,10 +321,9 @@ void twinkle(uint8_t wait, uint32_t color1) {
     }
 }
 
-// Working on a KITT chase feature
-void KITT(uint8_t reps, uint8_t wait, uint32_t color1) {
+// back and forth slider by segment length
+void KITT(uint8_t reps, uint8_t segLength, uint8_t wait, uint32_t color1) {
   for(uint8_t count=0; count<reps; count++) { 
-    uint16_t segLength=30;
     uint8_t chunks=length/segLength;
     for(uint8_t i=0; i<segLength; i++) {
       for(uint8_t f=0; f<chunks-1; f++) {
