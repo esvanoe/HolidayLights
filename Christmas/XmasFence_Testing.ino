@@ -13,7 +13,7 @@ void colorOff(uint16_t wait);
 void colorChase(uint8_t reps, uint16_t speed, uint32_t rabbit, uint32_t blanket);
 void rgbTwinkle(uint8_t reps, uint16_t speed);
 void twinkle(uint8_t wait, uint32_t color1);
-void KITT(uint8_t reps, uint8_t segLength, uint8_t wait, uint32_t color1);
+void KITT(uint8_t reps, uint16_t segLength, uint8_t wait, uint32_t color1);
 long randN; 
 long randN1;
 long randN2;
@@ -322,7 +322,7 @@ void twinkle(uint8_t wait, uint32_t color1) {
 }
 
 // back and forth slider by segment length
-void KITT(uint8_t reps, uint8_t segLength, uint8_t wait, uint32_t color1) {
+void KITT(uint8_t reps, uint16_t segLength, uint8_t wait, uint32_t color1) {
   for(uint8_t count=0; count<reps; count++) { 
     uint8_t chunks=length/segLength;
     for(uint8_t i=0; i<segLength; i++) {
