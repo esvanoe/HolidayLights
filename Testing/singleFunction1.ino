@@ -25,6 +25,8 @@ Adafruit_NeoPixel strip(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 uint32_t red = strip.Color(250, 0, 0);
 uint32_t green = strip.Color(0, 250, 0);
 uint32_t blue = strip.Color(0, 0, 250);
+uint32_t purple = strip.Color(160, 32, 240);
+uint32_t orange = strip.Color(255, 140, 0);
 uint32_t white = strip.Color(250, 250, 250);
 uint32_t off = strip.Color(0, 0, 0);
 uint16_t half=strip.numPixels()/2;
