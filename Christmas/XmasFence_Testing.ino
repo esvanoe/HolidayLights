@@ -55,6 +55,8 @@ uint32_t off = strip.Color(0, 0, 0);
 uint16_t half=strip.numPixels()/2;
 uint16_t length=strip.numPixels();
 
+#define NUM_RANDOMS 16
+
 void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
@@ -267,61 +269,29 @@ void colorOff(uint16_t wait) {
 }
 
 void twinkle(uint8_t wait, uint32_t color1) {
-  for(uint8_t f=0; f<101; f++) {
-    randN = random(0, half);
-    randN1 = random(half+1, length);
-    randN2 = random(0, half);
-    randN3 = random(half+1, length);
-    randN4 = random(0, half);
-    randN5 = random(half+1, length);
-    randN6 = random(0, half);
-    randN7 = random(half+1, length);
-    randN8 = random(0, half);
-    randN9 = random(half+1, length);
-    randN10 = random(0, half);
-    randN11 = random(half+1, length);
-    randN12 = random(0, half);
-    randN13 = random(half+1, length);
-    randN14 = random(0, half);
-    randN15 = random(half+1, length);
-    strip.setPixelColor(randN, color1);
-    strip.setPixelColor(randN1, color1);
-    strip.setPixelColor(randN2, color1);
-    strip.setPixelColor(randN2, color1);
-    strip.setPixelColor(randN4, color1);
-    strip.setPixelColor(randN5, color1);
-    strip.setPixelColor(randN6, color1);
-    strip.setPixelColor(randN7, color1);
-    strip.show();
-    delay(wait);
-    strip.setPixelColor(randN8, color1);
-    strip.setPixelColor(randN9, color1);
-    strip.setPixelColor(randN10, color1);
-    strip.setPixelColor(randN11, color1);
-    strip.setPixelColor(randN12, color1);
-    strip.setPixelColor(randN13, color1);
-    strip.setPixelColor(randN14, color1);
-    strip.setPixelColor(randN15, color1);
-    strip.setPixelColor(randN, off);
-    strip.setPixelColor(randN1, off);
-    strip.setPixelColor(randN2, off);
-    strip.setPixelColor(randN3, off);
-    strip.setPixelColor(randN4, off);
-    strip.setPixelColor(randN5, off);
-    strip.setPixelColor(randN6, off);
-    strip.setPixelColor(randN7, off);
-    strip.show();
-    delay(wait);
-    strip.setPixelColor(randN8, off);
-    strip.setPixelColor(randN9, off);
-    strip.setPixelColor(randN10, off);
-    strip.setPixelColor(randN11, off);
-    strip.setPixelColor(randN12, off);
-    strip.setPixelColor(randN13, off);
-    strip.setPixelColor(randN14, off);
-    strip.setPixelColor(randN15, off);
-    strip.show();    
+  long randNumbers[NUM_RANDOMS];
+  for (uint8_t f = 0; f < 101; f++) {
+    for (int i = 0; i < NUM_RANDOMS; i++) {
+      randNumbers[i] = random(i % 2 == 0 ? 0 : half + 1, i % 2 == 0 ? half : length);
     }
+    for (int i = 0; i < NUM_RANDOMS / 2; i++) {
+      strip.setPixelColor(randNumbers[i], color1);
+    }
+    strip.show();
+    delay(wait);
+    for (int i = NUM_RANDOMS / 2; i < NUM_RANDOMS; i++) {
+      strip.setPixelColor(randNumbers[i], color1);
+    }
+    for (int i = 0; i < NUM_RANDOMS / 2; i++) {
+      strip.setPixelColor(randNumbers[i], off);
+    }
+    strip.show();
+    delay(wait);
+    for (int i = NUM_RANDOMS / 2; i < NUM_RANDOMS; i++) {
+      strip.setPixelColor(randNumbers[i], off);
+    }
+    strip.show();
+  }
 }
 
 // back and forth slider by segment length
