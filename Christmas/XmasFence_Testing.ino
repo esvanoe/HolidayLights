@@ -14,9 +14,7 @@ void colorChase(uint8_t reps, uint16_t speed, uint32_t rabbit, uint32_t blanket)
 void rgbTwinkle(uint8_t reps, uint16_t speed);
 void twinkle(uint8_t wait, uint32_t color1);
 void KITT(uint8_t reps, uint16_t segLength, uint8_t wait, uint32_t color1);
-void meteorChaseBlue();
-void meteorChaseRed();
-void meteorChaseWhite();
+void meteorChase(uint32_t color);
 
 /* ======================= extra-examples.cpp ======================== */
 
@@ -49,15 +47,15 @@ void setup() {
 
 void loop() {
 
-  meteorChaseBlue();
-  meteorChaseBlue();
-  meteorChaseBlue();
-  meteorChaseRed();
-  meteorChaseRed();
-  meteorChaseRed();
-  meteorChaseWhite();
-  meteorChaseWhite();
-  meteorChaseWhite();
+  meteorChase(blue);
+  meteorChase(blue);
+  meteorChase(blue);
+  meteorChase(red);
+  meteorChase(red);
+  meteorChase(red);
+  meteorChase(white);
+  meteorChase(white);
+  meteorChase(white);
   KITT(3, 30, 30, blue); // Reps, segLength, Speed, Color
   colorOff(50);
   KITT(3, 30, 30, red); // Reps, segLength, Speed, Color
@@ -73,15 +71,15 @@ void loop() {
   twinkle(35, red); // Speed, Color
   KITT(3, 30, 30, green); // Reps, segLength, Speed, Color
   colorOff(50);    // wait
-  meteorChaseBlue();
-  meteorChaseBlue();
-  meteorChaseBlue();
-  meteorChaseRed();
-  meteorChaseRed();
-  meteorChaseRed();
-  meteorChaseWhite();
-  meteorChaseWhite();
-  meteorChaseWhite();
+  meteorChase(blue);
+  meteorChase(blue);
+  meteorChase(blue);
+  meteorChase(red);
+  meteorChase(red);
+  meteorChase(red);
+  meteorChase(white);
+  meteorChase(white);
+  meteorChase(white);
   rgbTwinkle(10, 800); // Reps, Speed
   colorOff(50);
   colorSplit(100, blue, white); // wait, down, up
@@ -101,15 +99,15 @@ void loop() {
   colorOff(50);    // wait
   KITT(3, 30, 30, green); // Reps, segLength, Speed, Color
   colorOff(50);
-  meteorChaseBlue();
-  meteorChaseBlue();
-  meteorChaseBlue();
-  meteorChaseRed();
-  meteorChaseRed();
-  meteorChaseRed();
-  meteorChaseWhite();
-  meteorChaseWhite();
-  meteorChaseWhite();
+  meteorChase(blue);
+  meteorChase(blue);
+  meteorChase(blue);
+  meteorChase(red);
+  meteorChase(red);
+  meteorChase(red);
+  meteorChase(white);
+  meteorChase(white);
+  meteorChase(white);
   colorChase(3, 5, red, blue);    // reps, speed, rabbit, blanket
   twinkle(35, white); // Speed, Color
   colorOff(50);
@@ -316,210 +314,40 @@ void setPixelRange(uint16_t start, uint16_t end, uint32_t color) {
   }
 }
 
-void meteorChaseBlue() {
+void meteorChase(uint32_t color) {
+  // Extract RGB components from the color parameter
+  uint8_t r = (uint8_t)(color >> 16);
+  uint8_t g = (uint8_t)(color >> 8);
+  uint8_t b = (uint8_t)color;
+  
   for(uint16_t i=0; i<750; i++) {
-    strip.setPixelColor(i, 0, 0, 250);
-    strip.setPixelColor(i-1, 0, 0, 120);
-    strip.setPixelColor(i-2, 0, 0, 100);
-    strip.setPixelColor(i-3, 0, 0, 50);
-    strip.setPixelColor(i-4, 0, 0, 40);
-    strip.setPixelColor(i-5, 0, 0, 20);
-    strip.setPixelColor(i-5, 0, 0, 0);
-    if(i>50) {
-      strip.setPixelColor(i-44, 0, 0, 250);
-      strip.setPixelColor(i-45, 0, 0, 120);
-      strip.setPixelColor(i-46, 0, 0, 100);
-      strip.setPixelColor(i-47, 0, 0, 50);
-      strip.setPixelColor(i-48, 0, 0, 40);
-      strip.setPixelColor(i-49, 0, 0, 20);
-      strip.setPixelColor(i-50, 0, 0, 0);
+    // Leading light at full brightness
+    strip.setPixelColor(i, r, g, b);
+    // Trailing lights with decreasing brightness
+    strip.setPixelColor(i-1, r*0.48, g*0.48, b*0.48);  // ~48% brightness
+    strip.setPixelColor(i-2, r*0.40, g*0.40, b*0.40);  // ~40% brightness
+    strip.setPixelColor(i-3, r*0.20, g*0.20, b*0.20);  // ~20% brightness
+    strip.setPixelColor(i-4, r*0.16, g*0.16, b*0.16);  // ~16% brightness
+    strip.setPixelColor(i-5, r*0.08, g*0.08, b*0.08);  // ~8% brightness
+    strip.setPixelColor(i-6, 0, 0, 0);                // Off
+    
+    // Repeating pattern at intervals of 50
+    for(int offset = 50; offset <= 300; offset += 50) {
+      if(i > offset) {
+        strip.setPixelColor(i-offset+6, r, g, b);
+        strip.setPixelColor(i-offset+5, r*0.48, g*0.48, b*0.48);
+        strip.setPixelColor(i-offset+4, r*0.40, g*0.40, b*0.40);
+        strip.setPixelColor(i-offset+3, r*0.20, g*0.20, b*0.20);
+        strip.setPixelColor(i-offset+2, r*0.16, g*0.16, b*0.16);
+        strip.setPixelColor(i-offset+1, r*0.08, g*0.08, b*0.08);
+        strip.setPixelColor(i-offset, 0, 0, 0);
       }
-    if(i>100) {
-      strip.setPixelColor(i-94, 0, 0, 250);
-      strip.setPixelColor(i-95, 0, 0, 120);
-      strip.setPixelColor(i-96, 0, 0, 100);
-      strip.setPixelColor(i-97, 0, 0, 50);
-      strip.setPixelColor(i-98, 0, 0, 40);
-      strip.setPixelColor(i-99, 0, 0, 20);
-      strip.setPixelColor(i-100, 0, 0, 0);
-      }
-    if(i>150) {
-      strip.setPixelColor(i-144, 0, 0, 250);
-      strip.setPixelColor(i-145, 0, 0, 120);
-      strip.setPixelColor(i-146, 0, 0, 100);
-      strip.setPixelColor(i-147, 0, 0, 50);
-      strip.setPixelColor(i-148, 0, 0, 40);
-      strip.setPixelColor(i-149, 0, 0, 20);
-      strip.setPixelColor(i-150, 0, 0, 0);
-      }
-    if(i>200) {
-      strip.setPixelColor(i-194, 0, 0, 250);
-      strip.setPixelColor(i-195, 0, 0, 120);
-      strip.setPixelColor(i-196, 0, 0, 100);
-      strip.setPixelColor(i-197, 0, 0, 50);
-      strip.setPixelColor(i-198, 0, 0, 40);
-      strip.setPixelColor(i-199, 0, 0, 20);
-      strip.setPixelColor(i-200, 0, 0, 0);
-      }
-    if(i>250) {
-      strip.setPixelColor(i-244, 0, 0, 250);
-      strip.setPixelColor(i-245, 0, 0, 120);
-      strip.setPixelColor(i-246, 0, 0, 100);
-      strip.setPixelColor(i-247, 0, 0, 50);
-      strip.setPixelColor(i-248, 0, 0, 40);
-      strip.setPixelColor(i-249, 0, 0, 20);
-      strip.setPixelColor(i-250, 0, 0, 0);
-      }
-    if(i>300) {
-      strip.setPixelColor(i-294, 0, 0, 250);
-      strip.setPixelColor(i-295, 0, 0, 120);
-      strip.setPixelColor(i-296, 0, 0, 100);
-      strip.setPixelColor(i-297, 0, 0, 50);
-      strip.setPixelColor(i-298, 0, 0, 40);
-      strip.setPixelColor(i-299, 0, 0, 20);
-      strip.setPixelColor(i-300, 0, 0, 0);
     }
+    
     strip.show();
     delay(2);
   }
 }
-
-void meteorChaseRed() {
-  for(uint16_t i=0; i<750; i++) {
-    strip.setPixelColor(i, 250, 0, 0);
-    strip.setPixelColor(i-1, 120, 0, 0);
-    strip.setPixelColor(i-2, 100, 0, 0);
-    strip.setPixelColor(i-3, 50, 0, 0);
-    strip.setPixelColor(i-4, 40, 0, 0);
-    strip.setPixelColor(i-5, 20, 0, 0);
-    strip.setPixelColor(i-5, 0, 0, 0);
-    if(i>50) {
-      strip.setPixelColor(i-44, 250, 0, 0);
-      strip.setPixelColor(i-45, 120, 0, 0);
-      strip.setPixelColor(i-46, 100, 0, 0);
-      strip.setPixelColor(i-47, 50, 0, 0);
-      strip.setPixelColor(i-48, 40, 0, 0);
-      strip.setPixelColor(i-49, 20, 0, 0);
-      strip.setPixelColor(i-50, 0, 0, 0);
-      }
-    if(i>100) {
-      strip.setPixelColor(i-94, 250, 0, 0);
-      strip.setPixelColor(i-95, 120, 0, 0);
-      strip.setPixelColor(i-96, 100, 0, 0);
-      strip.setPixelColor(i-97, 50, 0, 0);
-      strip.setPixelColor(i-98, 40, 0, 0);
-      strip.setPixelColor(i-99, 20, 0, 0);
-      strip.setPixelColor(i-100, 0, 0, 0);
-      }
-    if(i>150) {
-      strip.setPixelColor(i-144, 250, 0, 0);
-      strip.setPixelColor(i-145, 120, 0, 0);
-      strip.setPixelColor(i-146, 100, 0, 0);
-      strip.setPixelColor(i-147, 50, 0, 0);
-      strip.setPixelColor(i-148, 40, 0, 0);
-      strip.setPixelColor(i-149, 20, 0, 0);
-      strip.setPixelColor(i-150, 0, 0, 0);
-      }
-    if(i>200) {
-      strip.setPixelColor(i-194, 250, 0, 0);
-      strip.setPixelColor(i-195, 120, 0, 0);
-      strip.setPixelColor(i-196, 100, 0, 0);
-      strip.setPixelColor(i-197, 50, 0, 0);
-      strip.setPixelColor(i-198, 40, 0, 0);
-      strip.setPixelColor(i-199, 20, 0, 0);
-      strip.setPixelColor(i-200, 0, 0, 0);
-      }
-    if(i>250) {
-      strip.setPixelColor(i-244, 250, 0, 0);
-      strip.setPixelColor(i-245, 120, 0, 0);
-      strip.setPixelColor(i-246, 100, 0, 0);
-      strip.setPixelColor(i-247, 50, 0, 0);
-      strip.setPixelColor(i-248, 40, 0, 0);
-      strip.setPixelColor(i-249, 20, 0, 0);
-      strip.setPixelColor(i-250, 0, 0, 0);
-      }
-    if(i>300) {
-      strip.setPixelColor(i-294, 250, 0, 0);
-      strip.setPixelColor(i-295, 120, 0, 0);
-      strip.setPixelColor(i-296, 100, 0, 0);
-      strip.setPixelColor(i-297, 50, 0, 0);
-      strip.setPixelColor(i-298, 40, 0, 0);
-      strip.setPixelColor(i-299, 20, 0, 0);
-      strip.setPixelColor(i-300, 0, 0, 0);
-    }
-    strip.show();
-    delay(2);
-  }
-}
-
-void meteorChaseWhite() {
-  for(uint16_t i=0; i<750; i++) {
-    strip.setPixelColor(i, 250, 250, 250);
-    strip.setPixelColor(i-1, 120, 120, 120);
-    strip.setPixelColor(i-2, 100, 100, 100);
-    strip.setPixelColor(i-3, 50, 50, 50);
-    strip.setPixelColor(i-4, 40, 40, 40);
-    strip.setPixelColor(i-5, 20, 20, 20);
-    strip.setPixelColor(i-5, 0, 0, 0);
-    if(i>50) {
-      strip.setPixelColor(i-44, 250, 250, 250);
-      strip.setPixelColor(i-45, 120, 120, 120);
-      strip.setPixelColor(i-46, 100, 100, 100);
-      strip.setPixelColor(i-47, 50, 50, 50);
-      strip.setPixelColor(i-48, 40, 40, 40);
-      strip.setPixelColor(i-49, 20, 20, 20);
-      strip.setPixelColor(i-50, 0, 0, 0);
-      }
-    if(i>100) {
-      strip.setPixelColor(i-94, 250, 250, 250);
-      strip.setPixelColor(i-95, 120, 120, 120);
-      strip.setPixelColor(i-96, 100, 100, 100);
-      strip.setPixelColor(i-97, 50, 50, 50);
-      strip.setPixelColor(i-98, 40, 40, 40);
-      strip.setPixelColor(i-99, 20, 20, 20);
-      strip.setPixelColor(i-100, 0, 0, 0);
-      }
-    if(i>150) {
-      strip.setPixelColor(i-144, 250, 250, 250);
-      strip.setPixelColor(i-145, 120, 120, 120);
-      strip.setPixelColor(i-146, 100, 100, 100);
-      strip.setPixelColor(i-147, 50, 50, 50);
-      strip.setPixelColor(i-148, 40, 40, 40);
-      strip.setPixelColor(i-149, 20, 20, 20);
-      strip.setPixelColor(i-150, 0, 0, 0);
-      }
-    if(i>200) {
-      strip.setPixelColor(i-194, 250, 250, 250);
-      strip.setPixelColor(i-195, 120, 120, 120);
-      strip.setPixelColor(i-196, 100, 100, 100);
-      strip.setPixelColor(i-197, 50, 50, 50);
-      strip.setPixelColor(i-198, 40, 40, 40);
-      strip.setPixelColor(i-199, 20, 20, 20);
-      strip.setPixelColor(i-200, 0, 0, 0);
-      }
-    if(i>250) {
-      strip.setPixelColor(i-244, 250, 250, 250);
-      strip.setPixelColor(i-245, 120, 120, 120);
-      strip.setPixelColor(i-246, 100, 100, 100);
-      strip.setPixelColor(i-247, 50, 50, 50);
-      strip.setPixelColor(i-248, 40, 40, 40);
-      strip.setPixelColor(i-249, 20, 20, 20);
-      strip.setPixelColor(i-250, 0, 0, 0);
-      }
-    if(i>300) {
-      strip.setPixelColor(i-294, 250, 250, 250);
-      strip.setPixelColor(i-295, 120, 120, 120);
-      strip.setPixelColor(i-296, 100, 100, 100);
-      strip.setPixelColor(i-297, 50, 50, 50);
-      strip.setPixelColor(i-298, 40, 40, 40);
-      strip.setPixelColor(i-299, 20, 20, 20);
-      strip.setPixelColor(i-300, 0, 0, 0);
-    }
-    strip.show();
-    delay(2);
-  }
-}
-
 
 // back and forth slider by segment length
 void KITT(uint8_t reps, uint16_t segLength, uint8_t wait, uint32_t color1) {
